@@ -1,6 +1,7 @@
 package com.bitget.openapi.api.v3;
 
 import com.bitget.openapi.dto.response.ResponseResult;
+import com.bitget.openapi.dto.response.uta.UtaTickersResp;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.QueryMap;
@@ -13,7 +14,7 @@ public interface UtaMarketApi {
     Call<ResponseResult> instruments(@QueryMap Map<String, String> paramMap);
 
     @GET("/api/v3/market/tickers")
-    Call<ResponseResult> tickers(@QueryMap Map<String, String> paramMap);
+    Call<UtaTickersResp> tickers(@QueryMap Map<String, String> paramMap);
 
     @GET("/api/v3/market/orderbook")
     Call<ResponseResult> orderBook(@QueryMap Map<String, String> paramMap);

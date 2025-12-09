@@ -4,6 +4,7 @@ import com.bitget.openapi.api.v3.UtaMarketApi;
 import com.bitget.openapi.common.client.ApiClient;
 import com.bitget.openapi.common.utils.ResponseUtils;
 import com.bitget.openapi.dto.response.ResponseResult;
+import com.bitget.openapi.dto.response.uta.UtaTickersResp;
 
 import java.io.IOException;
 import java.util.Map;
@@ -20,8 +21,10 @@ public class UtaMarketService {
         return ResponseUtils.handleResponse(utaMarketApi.instruments(paramMap).execute().body());
     }
 
-    public ResponseResult tickers(Map<String, String> paramMap) throws IOException {
-        return ResponseUtils.handleResponse(utaMarketApi.tickers(paramMap).execute().body());
+    public UtaTickersResp tickers(Map<String, String> paramMap) throws IOException {
+        UtaTickersResp resp = utaMarketApi.tickers(paramMap).execute().body();
+        ResponseUtils.handleResponse(resp);
+        return resp;
     }
 
     public ResponseResult orderBook(Map<String, String> paramMap) throws IOException {
