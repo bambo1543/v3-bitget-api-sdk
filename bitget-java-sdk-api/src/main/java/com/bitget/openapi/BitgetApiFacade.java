@@ -163,5 +163,12 @@ public class BitgetApiFacade {
         public com.bitget.openapi.service.v2.spot.SpotWalletService spotWallet() {
             return new com.bitget.openapi.service.v2.spot.SpotWalletService(apiClient);
         }
+
+        /**
+         * uta trade service
+         */
+        public com.bitget.openapi.service.v2.uta.UtaTradeService utaTrade() {
+            return new com.bitget.openapi.service.v2.uta.UtaTradeService(apiClient);
+        }
     }
 }
