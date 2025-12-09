@@ -16,17 +16,17 @@ public class BaseTest {
     /**
      * 用户 apiKey 替换成自己的
      */
-    private final String apiKey = "";
+    private final String apiKey = "bg_5f05d28d7292dbf76f50572f7e4facaa";
 
     /**
      * 用户 secretKey 替换成自己的
      */
-    private final String secretKey = "";
+    private final String secretKey = "fa1adb059174401b999915bb1f61b7ae2ec380a960cad44eef144ce682e7d850";
 
     /**
      * 口令 替换成自己的
      */
-    private final String passphrase = "";
+    private final String passphrase = "Bambo1543";
 
     /**
      * bitget open api 根路径
@@ -38,8 +38,8 @@ public class BaseTest {
             .secretKey(secretKey)
             .passphrase(passphrase)
             .baseUrl(baseUrl)
-            //.signType(SignTypeEnum.RSA) // 如果你的apikey是RSA类型则主动设置
-            .locale(SupportedLocaleEnum.ZH_CN.getName())
+//            .signType(SignTypeEnum.RSA) // 如果你的apikey是RSA类型则主动设置
+            .locale(SupportedLocaleEnum.EN_US.getName())
             .build();
     public BitgetRestClient bitgetRestClient;
 

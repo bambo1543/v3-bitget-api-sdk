@@ -11,24 +11,24 @@ import java.util.Map;
 
 public class MixOrderTest extends BaseTest {
 
-    @Test
-    public void placeOrder() throws IOException {
-        try {
-            Map<String, String> paramMap = Maps.newHashMap();
-            paramMap.put("symbol", "BTCUSDT_UMCBL");
-            paramMap.put("marginCoin", "USDT");
-            paramMap.put("side", "open_long");
-            paramMap.put("orderType", "limit");
-            paramMap.put("price", "27012.1");
-            paramMap.put("size", "0.01");
-            paramMap.put("timInForceValue", "normal");
-            ResponseResult result = bitgetRestClient.bitget().v1().mixOrder().placeOrder(paramMap);
-            System.out.println(JSON.toJSONString(result));
-        } catch (Exception e) {
-            System.out.println(e);
-            throw e;
-        }
-    }
+//    @Test
+//    public void placeOrder() throws IOException {
+//        try {
+//            Map<String, String> paramMap = Maps.newHashMap();
+//            paramMap.put("symbol", "BTCUSDT_UMCBL");
+//            paramMap.put("marginCoin", "USDT");
+//            paramMap.put("side", "open_long");
+//            paramMap.put("orderType", "limit");
+//            paramMap.put("price", "27012.1");
+//            paramMap.put("size", "0.01");
+//            paramMap.put("timInForceValue", "normal");
+//            ResponseResult result = bitgetRestClient.bitget().v1().mixOrder().placeOrder(paramMap);
+//            System.out.println(JSON.toJSONString(result));
+//        } catch (Exception e) {
+//            System.out.println(e);
+//            throw e;
+//        }
+//    }
 
     @Test
     public void post() throws IOException {

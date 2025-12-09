@@ -29,6 +29,10 @@ public class BitgetApiFacade {
         return new BitgetApiFacade.BgEndpointV2(apiClient);
     }
 
+    public BitgetApiFacade.BgEndpointV3 v3() {
+        return new BitgetApiFacade.BgEndpointV3(apiClient);
+    }
+
     public static class BgEndpoint {
         private final ApiClient apiClient;
 
@@ -162,6 +166,38 @@ public class BitgetApiFacade {
          */
         public com.bitget.openapi.service.v2.spot.SpotWalletService spotWallet() {
             return new com.bitget.openapi.service.v2.spot.SpotWalletService(apiClient);
+        }
+    }
+
+    public static class BgEndpointV3 {
+        private final ApiClient apiClient;
+
+        BgEndpointV3(ApiClient apiClient) {
+            this.apiClient = apiClient;
+        }
+
+        public <T> T createRetrofit(Class<T> clazz) {
+            return apiClient.create(clazz);
+        }
+
+        /**
+         * bitget service
+         */
+        public BitgetService request() {
+            return new BitgetService(apiClient);
+        }
+
+        /**
+         * market service
+         */
+        public com.bitget.openapi.service.v3.MarketService market() {
+            return new com.bitget.openapi.service.v3.MarketService(apiClient);
+        }
+        /**
+         * trade service
+         */
+        public com.bitget.openapi.service.v3.TradeService trade() {
+            return new com.bitget.openapi.service.v3.TradeService(apiClient);
         }
     }
 }
