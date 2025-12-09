@@ -1,6 +1,6 @@
 package com.bitget.openapi.common.utils;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.bitget.openapi.common.exception.BitgetApiException;
 import com.bitget.openapi.dto.response.ResponseResult;
 

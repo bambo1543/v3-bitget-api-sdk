@@ -1,6 +1,6 @@
 package com.bitget.openapi.ws;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.bitget.openapi.dto.request.ws.SubscribeReq;
 
 import java.util.ArrayList;

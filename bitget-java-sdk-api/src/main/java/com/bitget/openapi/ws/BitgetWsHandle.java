@@ -1,7 +1,7 @@
 package com.bitget.openapi.ws;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.bitget.openapi.common.enums.SignTypeEnum;
 import com.bitget.openapi.common.utils.DateUtil;
 import com.bitget.openapi.common.utils.SignatureUtils;

@@ -1,7 +1,7 @@
 package com.bitget.openapi.common.client;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.bitget.openapi.common.constant.HttpHeader;
 import com.bitget.openapi.common.domain.ClientParameter;
 import com.bitget.openapi.common.enums.SignTypeEnum;
