@@ -1,6 +1,5 @@
 package com.bitget.openapi.service.v3;
 
-import com.bitget.openapi.api.v3.MarketApi;
 import com.bitget.openapi.api.v3.TradeApi;
 import com.bitget.openapi.common.client.ApiClient;
 import com.bitget.openapi.common.utils.ResponseUtils;
@@ -9,11 +8,11 @@ import com.bitget.openapi.dto.response.ResponseResult;
 import java.io.IOException;
 import java.util.Map;
 
-public class TradeService {
+public class UtaTradeService {
 
     private final TradeApi tradeApi;
 
-    public TradeService(ApiClient client) {
+    public UtaTradeService(ApiClient client) {
         tradeApi = client.create(TradeApi.class);
     }
 

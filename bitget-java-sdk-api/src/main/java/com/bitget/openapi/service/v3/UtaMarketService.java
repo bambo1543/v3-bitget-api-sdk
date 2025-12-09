@@ -4,17 +4,15 @@ import com.bitget.openapi.api.v3.MarketApi;
 import com.bitget.openapi.common.client.ApiClient;
 import com.bitget.openapi.common.utils.ResponseUtils;
 import com.bitget.openapi.dto.response.ResponseResult;
-import retrofit2.Call;
-import retrofit2.http.GET;
 
 import java.io.IOException;
 import java.util.Map;
 
-public class MarketService {
+public class UtaMarketService {
 
     private final MarketApi marketApi;
 
-    public MarketService(ApiClient client) {
+    public UtaMarketService(ApiClient client) {
         marketApi = client.create(MarketApi.class);
     }
 

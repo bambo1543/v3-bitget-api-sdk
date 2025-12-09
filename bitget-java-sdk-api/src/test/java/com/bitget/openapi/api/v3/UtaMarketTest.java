@@ -9,7 +9,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.Map;
 
-public class MarketTest extends BaseTest {
+public class UtaMarketTest extends BaseTest {
 
     @Test
     public void instrumentsTest() throws IOException {

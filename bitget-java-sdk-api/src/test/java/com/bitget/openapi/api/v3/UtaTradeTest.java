@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 
-public class TradeTest extends BaseTest {
+public class UtaTradeTest extends BaseTest {
 
     @Test
     public void placeOrder() throws IOException {

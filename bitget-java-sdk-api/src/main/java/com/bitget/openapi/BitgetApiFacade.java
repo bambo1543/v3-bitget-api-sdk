@@ -9,6 +9,8 @@ import com.bitget.openapi.service.v1.spot.SpotAccountService;
 import com.bitget.openapi.service.v1.spot.SpotMarketService;
 import com.bitget.openapi.service.v1.spot.SpotOrderService;
 import com.bitget.openapi.service.v1.spot.SpotWalletService;
+import com.bitget.openapi.service.v3.UtaMarketService;
+import com.bitget.openapi.service.v3.UtaTradeService;
 
 public class BitgetApiFacade {
 
@@ -167,13 +169,6 @@ public class BitgetApiFacade {
         public com.bitget.openapi.service.v2.spot.SpotWalletService spotWallet() {
             return new com.bitget.openapi.service.v2.spot.SpotWalletService(apiClient);
         }
-
-        /**
-         * uta trade service
-         */
-        public com.bitget.openapi.service.v2.uta.UtaTradeService utaTrade() {
-            return new com.bitget.openapi.service.v2.uta.UtaTradeService(apiClient);
-        }
     }
 
     public static class BgEndpointV3 {
@@ -197,14 +192,14 @@ public class BitgetApiFacade {
         /**
          * market service
          */
-        public com.bitget.openapi.service.v3.MarketService market() {
-            return new com.bitget.openapi.service.v3.MarketService(apiClient);
+        public UtaMarketService market() {
+            return new UtaMarketService(apiClient);
         }
         /**
          * trade service
          */
-        public com.bitget.openapi.service.v3.TradeService trade() {
-            return new com.bitget.openapi.service.v3.TradeService(apiClient);
+        public UtaTradeService trade() {
+            return new UtaTradeService(apiClient);
         }
     }
 }
