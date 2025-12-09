@@ -20,10 +20,10 @@ public interface UtaTradeApi {
     Call<ResponseResult> placeOrder(@Body Map<String, String> request);
 
     @POST("/api/v3/trade/place-batch")
-    Call<ResponseResult> placeBatch(@Body List<UtaPlaceOrderReq> request);
+    Call<ResponseResult> placeBatchOrders(@Body List<UtaPlaceOrderReq> request);
 
     @POST("/api/v3/trade/place-batch")
-    Call<ResponseResult> placeBatchMap(@Body List<Map<String, String>> request);
+    Call<ResponseResult> placeBatchOrdersMap(@Body List<Map<String, String>> request);
 
     @POST("/api/v3/trade/cancel-order")
     Call<ResponseResult> cancelOrder(@Body UtaCancelOrderReq request);
@@ -32,10 +32,10 @@ public interface UtaTradeApi {
     Call<ResponseResult> cancelOrder(@Body Map<String, String> request);
 
     @POST("/api/v3/trade/cancel-batch")
-    Call<ResponseResult> cancelBatch(@Body UtaCancelBatchOrdersReq request);
+    Call<ResponseResult> cancelBatchOrders(@Body UtaCancelBatchOrdersReq request);
 
     @POST("/api/v3/trade/cancel-batch")
-    Call<ResponseResult> cancelBatch(@Body Map<String, String> request);
+    Call<ResponseResult> cancelBatchOrders(@Body Map<String, String> request);
 
     @POST("/api/v3/trade/cancel-symbol-order")
     Call<ResponseResult> cancelAllOrders(@Body UtaCancelAllOrdersReq request);
@@ -50,10 +50,10 @@ public interface UtaTradeApi {
     Call<ResponseResult> modifyOrder(@Body Map<String, String> request);
 
     @POST("/api/v3/trade/batch-modify-order")
-    Call<ResponseResult> modifyBatch(@Body List<UtaModifyOrderReq> request);
+    Call<ResponseResult> modifyBatchOrders(@Body List<UtaModifyOrderReq> request);
 
     @POST("/api/v3/trade/batch-modify-order")
-    Call<ResponseResult> modifyBatchMap(@Body List<Map<String, String>> request);
+    Call<ResponseResult> modifyBatchOrdersMap(@Body List<Map<String, String>> request);
 
     @POST("/api/v3/trade/close-positions")
     Call<ResponseResult> closeAllPositions(@Body UtaClosePositionsReq request);
@@ -79,11 +79,11 @@ public interface UtaTradeApi {
     @GET("/api/v3/trade/fills")
     Call<ResponseResult> getOrderFills(@QueryMap Map<String, String> query);
 
-    @GET("/api/v3/trade/position")
-    Call<ResponseResult> getPositions(@QueryMap Map<String, String> query);
+    @GET("/api/v3/trade/current-position")
+    Call<ResponseResult> getPositionInfo(@QueryMap Map<String, String> query);
 
     @GET("/api/v3/trade/position-history")
-    Call<ResponseResult> getPositionHistory(@QueryMap Map<String, String> query);
+    Call<ResponseResult> getPositionsHistory(@QueryMap Map<String, String> query);
 
     @GET("/api/v3/trade/max-open-amount")
     Call<ResponseResult> getMaxOpenAvailable(@QueryMap Map<String, String> query);
