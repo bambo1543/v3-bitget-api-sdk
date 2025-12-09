@@ -2,6 +2,7 @@ package com.bitget.openapi.api.v3;
 
 import com.alibaba.fastjson.JSON;
 import com.bitget.openapi.BaseTest;
+import com.bitget.openapi.dto.request.uta.UtaCancelAllOrdersReq;
 import com.bitget.openapi.dto.response.ResponseResult;
 import com.google.common.collect.Maps;
 import org.junit.Test;
@@ -24,8 +25,8 @@ public class UtaTradeTest extends BaseTest {
             paramMap.put("posSide", "long");
             String uuid = UUID.randomUUID().toString().replace("-", "");
             paramMap.put("clientOid", uuid);
-            ResponseResult result = bitgetRestClient.bitget().v3().trade().placeOrder(paramMap);
-            System.out.println(JSON.toJSONString(result));
+//            ResponseResult result = bitgetRestClient.bitget().v3().trade().placeOrder(paramMap);
+//            System.out.println(JSON.toJSONString(result));
         } catch (Exception e) {
             System.out.println(e);
             throw e;
@@ -37,7 +38,9 @@ public class UtaTradeTest extends BaseTest {
             Map<String, String> paramMap = Maps.newHashMap();
             paramMap.put("category", "USDT-FUTURES");
 //            paramMap.put("symbol", "ETHUSDT");
-            ResponseResult result = bitgetRestClient.bitget().v3().trade().cancelAllOrders(paramMap);
+
+            UtaCancelAllOrdersReq req = UtaCancelAllOrdersReq.builder().category("USDT-FUTURES").symbol("ETHUSDT").build();
+            ResponseResult result = bitgetRestClient.bitget().v3().trade().cancelAllOrders(req);
             System.out.println(JSON.toJSONString(result));
         } catch (Exception e) {
             System.out.println(e);

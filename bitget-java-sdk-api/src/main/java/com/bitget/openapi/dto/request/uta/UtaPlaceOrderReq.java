@@ -6,14 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(toBuilder = true)
 public class UtaPlaceOrderReq {
 
     private String symbol;
 
-    private String marginCoin;
+    private String category;
 
     private String marginMode;
 
