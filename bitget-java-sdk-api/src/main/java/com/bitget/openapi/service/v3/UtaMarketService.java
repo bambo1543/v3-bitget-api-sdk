@@ -1,6 +1,6 @@
 package com.bitget.openapi.service.v3;
 
-import com.bitget.openapi.api.v3.MarketApi;
+import com.bitget.openapi.api.v3.UtaMarketApi;
 import com.bitget.openapi.common.client.ApiClient;
 import com.bitget.openapi.common.utils.ResponseUtils;
 import com.bitget.openapi.dto.response.ResponseResult;
@@ -10,13 +10,13 @@ import java.util.Map;
 
 public class UtaMarketService {
 
-    private final MarketApi marketApi;
+    private final UtaMarketApi utaMarketApi;
 
     public UtaMarketService(ApiClient client) {
-        marketApi = client.create(MarketApi.class);
+        utaMarketApi = client.create(UtaMarketApi.class);
     }
 
     public ResponseResult instruments(Map<String, String> paramMap) throws IOException {
-        return ResponseUtils.handleResponse(marketApi.instruments(paramMap).execute().body());
+        return ResponseUtils.handleResponse(utaMarketApi.instruments(paramMap).execute().body());
     }
 }

@@ -1,6 +1,6 @@
 package com.bitget.openapi.service.v3;
 
-import com.bitget.openapi.api.v3.TradeApi;
+import com.bitget.openapi.api.v3.UtaTradeApi;
 import com.bitget.openapi.common.client.ApiClient;
 import com.bitget.openapi.common.utils.ResponseUtils;
 import com.bitget.openapi.dto.response.ResponseResult;
@@ -10,23 +10,23 @@ import java.util.Map;
 
 public class UtaTradeService {
 
-    private final TradeApi tradeApi;
+    private final UtaTradeApi utaTradeApi;
 
     public UtaTradeService(ApiClient client) {
-        tradeApi = client.create(TradeApi.class);
+        utaTradeApi = client.create(UtaTradeApi.class);
     }
 
     public ResponseResult placeOrder(Map<String, String> paramMap) throws IOException {
-        return ResponseUtils.handleResponse(tradeApi.placeOrder(paramMap).execute().body());
+        return ResponseUtils.handleResponse(utaTradeApi.placeOrder(paramMap).execute().body());
     }
     public ResponseResult cancelOrder(Map<String, String> paramMap) throws IOException {
-        return ResponseUtils.handleResponse(tradeApi.cancelOrder(paramMap).execute().body());
+        return ResponseUtils.handleResponse(utaTradeApi.cancelOrder(paramMap).execute().body());
     }
     public ResponseResult cancelBatch(Map<String, String> paramMap) throws IOException {
-        return ResponseUtils.handleResponse(tradeApi.cancelBatch(paramMap).execute().body());
+        return ResponseUtils.handleResponse(utaTradeApi.cancelBatch(paramMap).execute().body());
     }
 
     public ResponseResult cancelAllOrders(Map<String, String> paramMap) throws IOException {
-        return ResponseUtils.handleResponse(tradeApi.cancelAllOrders(paramMap).execute().body());
+        return ResponseUtils.handleResponse(utaTradeApi.cancelAllOrders(paramMap).execute().body());
     }
 }

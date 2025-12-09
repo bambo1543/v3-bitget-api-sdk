@@ -7,7 +7,7 @@ import retrofit2.http.QueryMap;
 
 import java.util.Map;
 
-public interface MarketApi {
+public interface UtaMarketApi {
 
     @GET("/api/v3/market/instruments")
     Call<ResponseResult> instruments(@QueryMap Map<String, String> paramMap);
