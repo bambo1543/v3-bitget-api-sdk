@@ -9,6 +9,7 @@ import com.bitget.openapi.service.v1.spot.SpotAccountService;
 import com.bitget.openapi.service.v1.spot.SpotMarketService;
 import com.bitget.openapi.service.v1.spot.SpotOrderService;
 import com.bitget.openapi.service.v1.spot.SpotWalletService;
+import com.bitget.openapi.service.v3.UtaAccountService;
 import com.bitget.openapi.service.v3.UtaMarketService;
 import com.bitget.openapi.service.v3.UtaTradeService;
 
@@ -200,6 +201,13 @@ public class BitgetApiFacade {
          */
         public UtaTradeService trade() {
             return new UtaTradeService(apiClient);
+        }
+
+        /**
+         * account service
+         */
+        public UtaAccountService account() {
+            return new UtaAccountService(apiClient);
         }
     }
 }
