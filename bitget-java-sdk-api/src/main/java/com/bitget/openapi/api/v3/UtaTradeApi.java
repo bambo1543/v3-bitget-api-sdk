@@ -2,6 +2,7 @@ package com.bitget.openapi.api.v3;
 
 import com.bitget.openapi.dto.request.uta.*;
 import com.bitget.openapi.dto.response.ResponseResult;
+import com.bitget.openapi.dto.response.uta.UtaPositionInfoResp;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -70,7 +71,7 @@ public interface UtaTradeApi {
     @GET("/api/v3/trade/order-info")
     Call<ResponseResult> getOrderDetails(@QueryMap Map<String, String> query);
 
-    @GET("/api/v3/trade/open-orders")
+    @GET("/api/v3/trade/unfilled-orders")
     Call<ResponseResult> getOpenOrders(@QueryMap Map<String, String> query);
 
     @GET("/api/v3/trade/history-orders")
@@ -79,16 +80,16 @@ public interface UtaTradeApi {
     @GET("/api/v3/trade/fills")
     Call<ResponseResult> getOrderFills(@QueryMap Map<String, String> query);
 
-    @GET("/api/v3/trade/current-position")
-    Call<ResponseResult> getPositionInfo(@QueryMap Map<String, String> query);
+    @GET("/api/v3/position/current-position")
+    Call<UtaPositionInfoResp> getPositionInfo(@QueryMap Map<String, String> query);
 
-    @GET("/api/v3/trade/position-history")
+    @GET("/api/v3/position/history-position")
     Call<ResponseResult> getPositionsHistory(@QueryMap Map<String, String> query);
 
-    @GET("/api/v3/trade/max-open-amount")
-    Call<ResponseResult> getMaxOpenAvailable(@QueryMap Map<String, String> query);
+    @POST("/api/v3/account/max-open-available")
+    Call<ResponseResult> getMaxOpenAvailable(@Body Map<String, String> request);
 
-    @GET("/api/v3/trade/position-adl")
+    @GET("/api/v3/position/adlRank")
     Call<ResponseResult> getPositionAdlRank(@QueryMap Map<String, String> query);
 
 }

@@ -5,6 +5,7 @@ import com.bitget.openapi.common.client.ApiClient;
 import com.bitget.openapi.common.utils.ResponseUtils;
 import com.bitget.openapi.dto.request.uta.*;
 import com.bitget.openapi.dto.response.ResponseResult;
+import com.bitget.openapi.dto.response.uta.UtaPositionInfoResp;
 
 import java.io.IOException;
 import java.util.List;
@@ -93,8 +94,8 @@ public class UtaTradeService {
         return ResponseUtils.handleResponse(utaTradeApi.getOrderFills(query).execute().body());
     }
 
-    public ResponseResult getPositionInfo(Map<String, String> query) throws IOException {
-        return ResponseUtils.handleResponse(utaTradeApi.getPositionInfo(query).execute().body());
+    public UtaPositionInfoResp getPositionInfo(Map<String, String> query) throws IOException {
+        return utaTradeApi.getPositionInfo(query).execute().body();
     }
 
     public ResponseResult getPositionsHistory(Map<String, String> query) throws IOException {

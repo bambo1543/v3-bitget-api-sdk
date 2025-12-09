@@ -5,9 +5,12 @@ import com.bitget.openapi.BaseTest;
 import com.bitget.openapi.dto.request.uta.UtaCancelOrderReq;
 import com.bitget.openapi.dto.request.uta.UtaPlaceOrderReq;
 import com.bitget.openapi.dto.response.ResponseResult;
+import com.bitget.openapi.dto.response.uta.UtaPositionInfoResp;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.UUID;
 
 public class UtaTradeTest extends BaseTest {
@@ -30,18 +33,38 @@ public class UtaTradeTest extends BaseTest {
 
             UtaPlaceOrderReq placeOrderReq = UtaPlaceOrderReq.builder().category("USDT-FUTURES").symbol("ETHUSDT").clientOid(uuid)
                     .qty("1.0").side("buy").posSide("long").orderType("limit").price("100.0").build();
-            ResponseResult result = bitgetRestClient.bitget().v3().trade().placeOrder(placeOrderReq);
-
-            System.out.println(JSON.toJSONString(result));
+            ResponseResult response = bitgetRestClient.bitget().v3().trade().placeOrder(placeOrderReq);
+            assetResponse(response);
+            System.out.println(JSON.toJSONString(response));
 
 //            UtaCancelAllOrdersReq req = UtaCancelAllOrdersReq.builder().category("USDT-FUTURES").symbol("ETHUSDT").build();
 //            result = bitgetRestClient.bitget().v3().trade().cancelAllOrders(req);
             UtaCancelOrderReq cancelOrderReq = UtaCancelOrderReq.builder().clientOid(uuid).build();
-            result = bitgetRestClient.bitget().v3().trade().cancelOrder(cancelOrderReq);
-            System.out.println(JSON.toJSONString(result));
+            response = bitgetRestClient.bitget().v3().trade().cancelOrder(cancelOrderReq);
+            assetResponse(response);
+            System.out.println(JSON.toJSONString(response));
         } catch (Exception e) {
             System.out.println(e);
             throw e;
         }
+    }
+
+    @Test
+    public void getPositionInfo() throws IOException {
+//        ResponseResult result = bitgetRestClient.bitget().v3().trade().placeOrder(
+//                UtaPlaceOrderReq.builder().category("USDT-FUTURES").symbol("ETHUSDT").clientOid(UUID.randomUUID().toString())
+//                .qty("0.01").side("buy").posSide("long").orderType("market").build());
+
+        UtaPositionInfoResp resp = bitgetRestClient.bitget().v3().trade()
+                .getPositionInfo(Map.of("category", "USDT-FUTURES", "symbol", "ETHUSDT"));
+        assetResponse(resp);
+        System.out.println(JSON.toJSONString(resp));
+    }
+
+    private static void assetResponse(ResponseResult resp) {
+        Assert.assertNotNull(resp);
+        Assert.assertEquals("00000", resp.getCode());
+        Assert.assertEquals("200", resp.getHttpCode());
+        Assert.assertEquals("success", resp.getMsg());
     }
 }
