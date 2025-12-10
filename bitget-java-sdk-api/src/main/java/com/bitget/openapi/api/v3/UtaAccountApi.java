@@ -1,6 +1,8 @@
 package com.bitget.openapi.api.v3;
 
 import com.bitget.openapi.dto.response.ResponseResult;
+import com.bitget.openapi.dto.response.uta.UtaAccountInfoResp;
+import com.bitget.openapi.dto.response.uta.UtaFundingAssetsResp;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -13,6 +15,24 @@ import java.util.Map;
  * UTA account endpoints (see doc/www.bitget.com/api-doc/uta/account).
  */
 public interface UtaAccountApi {
+
+    /**
+     * GET /api/v3/account/assets
+     */
+    @GET("/api/v3/account/assets")
+    Call<UtaAccountInfoResp> getAccountAssets(@QueryMap Map<String, String> query);
+
+    /**
+     * GET /api/v3/account/funding-assets
+     */
+    @GET("/api/v3/account/funding-assets")
+    Call<UtaFundingAssetsResp> getAccountFundingAssets(@QueryMap Map<String, String> query);
+
+    /**
+     * POST /api/v3/account/set-hold-mode
+     */
+    @POST("/api/v3/account/set-hold-mode")
+    Call<ResponseResult> setHoldMode(@Body Map<String, String> body);
 
     /**
      * POST /api/v3/account/set-leverage

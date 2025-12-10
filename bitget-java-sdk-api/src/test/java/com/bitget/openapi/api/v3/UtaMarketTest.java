@@ -2,8 +2,12 @@ package com.bitget.openapi.api.v3;
 
 import com.alibaba.fastjson2.JSON;
 import com.bitget.openapi.BaseTest;
+import com.bitget.openapi.BitgetApiFacade;
 import com.bitget.openapi.dto.response.ResponseResult;
+import com.bitget.openapi.dto.response.uta.UtaFundingAsset;
+import com.bitget.openapi.dto.response.uta.UtaFundingAssetsResp;
 import com.bitget.openapi.dto.response.uta.UtaTickersResp;
+import com.bitget.openapi.service.v3.UtaAccountService;
 import com.google.common.collect.Maps;
 import org.junit.Test;
 
