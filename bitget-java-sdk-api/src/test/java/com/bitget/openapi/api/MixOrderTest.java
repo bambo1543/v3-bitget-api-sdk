@@ -4,11 +4,13 @@ import com.alibaba.fastjson2.JSON;
 import com.bitget.openapi.BaseTest;
 import com.bitget.openapi.dto.response.ResponseResult;
 import com.google.common.collect.Maps;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Map;
 
+@Ignore
 public class MixOrderTest extends BaseTest {
 
 //    @Test

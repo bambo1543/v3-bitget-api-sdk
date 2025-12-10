@@ -20,7 +20,7 @@ public interface UtaAccountApi {
      * GET /api/v3/account/assets
      */
     @GET("/api/v3/account/assets")
-    Call<UtaAccountInfoResp> getAccountAssets(@QueryMap Map<String, String> query);
+    Call<UtaAccountInfoResp> getAccountAssets();
 
     /**
      * GET /api/v3/account/funding-assets

@@ -21,8 +21,14 @@ public class UtaAccountService {
         this.utaAccountApi = client.create(UtaAccountApi.class);
     }
 
-    public UtaAccountInfoResp getAccountAssets(Map<String, String> query) throws IOException {
-        UtaAccountInfoResp resp = utaAccountApi.getAccountAssets(query).execute().body();
+    public UtaAccountInfoResp getAccountAssets() throws IOException {
+        UtaAccountInfoResp resp = utaAccountApi.getAccountAssets().execute().body();
+        ResponseUtils.handleResponse(resp);
+        return resp;
+    }
+
+    public UtaFundingAssetsResp getAccountFundingAssets(Map<String, String> query) throws IOException {
+        UtaFundingAssetsResp resp = utaAccountApi.getAccountFundingAssets(query).execute().body();
         ResponseUtils.handleResponse(resp);
         return resp;
     }
@@ -41,12 +47,6 @@ public class UtaAccountService {
 
     public ResponseResult getMaxTransferable(Map<String, String> query) throws IOException {
         return ResponseUtils.handleResponse(utaAccountApi.getMaxTransferable(query).execute().body());
-    }
-
-    public UtaFundingAssetsResp getAccountFundingAssets(Map<String, String> query) throws IOException {
-        UtaFundingAssetsResp resp = utaAccountApi.getAccountFundingAssets(query).execute().body();
-        ResponseUtils.handleResponse(resp);
-        return resp;
     }
 
     public ResponseResult getOpenInterestLimit(Map<String, String> query) throws IOException {

@@ -23,7 +23,7 @@ public class UtaAccountTest extends BaseTest {
     }
     @Test
     public void accountAssetsTest() throws IOException {
-        UtaAccountInfoResp utaAccountInfoResp = accountService.getAccountAssets(Map.of());
+        UtaAccountInfoResp utaAccountInfoResp = accountService.getAccountAssets();
         utaAccountInfoResp.getData().getAssets().stream().filter(o->o.getCoin().equals("USDT")).findFirst()
                 .ifPresent(utaAccountAsset -> System.out.println(utaAccountAsset.getAvailable()));
     }
