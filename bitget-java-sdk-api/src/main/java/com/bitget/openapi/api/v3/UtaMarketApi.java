@@ -1,6 +1,7 @@
 package com.bitget.openapi.api.v3;
 
 import com.bitget.openapi.dto.response.ResponseResult;
+import com.bitget.openapi.dto.response.uta.UtaCandlesResp;
 import com.bitget.openapi.dto.response.uta.UtaTickersResp;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -29,10 +30,10 @@ public interface UtaMarketApi {
     Call<ResponseResult> openInterest(@QueryMap Map<String, String> paramMap);
 
     @GET("/api/v3/market/candles")
-    Call<ResponseResult> candles(@QueryMap Map<String, String> paramMap);
+    Call<UtaCandlesResp> candles(@QueryMap Map<String, String> paramMap);
 
     @GET("/api/v3/market/history-candles")
-    Call<ResponseResult> historyCandles(@QueryMap Map<String, String> paramMap);
+    Call<UtaCandlesResp> historyCandles(@QueryMap Map<String, String> paramMap);
 
     @GET("/api/v3/market/current-fund-rate")
     Call<ResponseResult> currentFundingRate(@QueryMap Map<String, String> paramMap);
