@@ -2,7 +2,9 @@ package com.bitget.openapi.api.v3;
 
 import com.bitget.openapi.dto.request.uta.*;
 import com.bitget.openapi.dto.response.ResponseResult;
+import com.bitget.openapi.dto.response.uta.UtaBatchPlaceOrderResp;
 import com.bitget.openapi.dto.response.uta.UtaPositionInfoResp;
+import com.bitget.openapi.dto.response.uta.UtaPlaceOrderResp;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -15,16 +17,16 @@ import java.util.Map;
 public interface UtaTradeApi {
 
     @POST("/api/v3/trade/place-order")
-    Call<ResponseResult> placeOrder(@Body UtaPlaceOrderReq request);
+    Call<UtaPlaceOrderResp> placeOrder(@Body UtaPlaceOrderReq request);
 
     @POST("/api/v3/trade/place-order")
-    Call<ResponseResult> placeOrder(@Body Map<String, String> request);
+    Call<UtaPlaceOrderResp> placeOrder(@Body Map<String, String> request);
 
     @POST("/api/v3/trade/place-batch")
-    Call<ResponseResult> placeBatchOrders(@Body List<UtaPlaceOrderReq> request);
+    Call<UtaBatchPlaceOrderResp> placeBatchOrders(@Body List<UtaPlaceOrderReq> request);
 
     @POST("/api/v3/trade/place-batch")
-    Call<ResponseResult> placeBatchOrdersMap(@Body List<Map<String, String>> request);
+    Call<UtaBatchPlaceOrderResp> placeBatchOrdersMap(@Body List<Map<String, String>> request);
 
     @POST("/api/v3/trade/cancel-order")
     Call<ResponseResult> cancelOrder(@Body UtaCancelOrderReq request);

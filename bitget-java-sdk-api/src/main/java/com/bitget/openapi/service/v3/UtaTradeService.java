@@ -5,7 +5,9 @@ import com.bitget.openapi.common.client.ApiClient;
 import com.bitget.openapi.common.utils.ResponseUtils;
 import com.bitget.openapi.dto.request.uta.*;
 import com.bitget.openapi.dto.response.ResponseResult;
+import com.bitget.openapi.dto.response.uta.UtaBatchPlaceOrderResp;
 import com.bitget.openapi.dto.response.uta.UtaPositionInfoResp;
+import com.bitget.openapi.dto.response.uta.UtaPlaceOrderResp;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,17 +21,25 @@ public class UtaTradeService {
         utaTradeApi = client.create(UtaTradeApi.class);
     }
 
-    public ResponseResult placeOrder(UtaPlaceOrderReq request) throws IOException {
-        return ResponseUtils.handleResponse(utaTradeApi.placeOrder(request).execute().body());
+    public UtaPlaceOrderResp placeOrder(UtaPlaceOrderReq request) throws IOException {
+        UtaPlaceOrderResp resp = utaTradeApi.placeOrder(request).execute().body();
+        ResponseUtils.handleResponse(resp);
+        return resp;
     }
-    public ResponseResult placeOrder(Map<String, String> request) throws IOException {
-        return ResponseUtils.handleResponse(utaTradeApi.placeOrder(request).execute().body());
+    public UtaPlaceOrderResp placeOrder(Map<String, String> request) throws IOException {
+        UtaPlaceOrderResp resp = utaTradeApi.placeOrder(request).execute().body();
+        ResponseUtils.handleResponse(resp);
+        return resp;
     }
-    public ResponseResult placeBatchOrders(List<UtaPlaceOrderReq> request) throws IOException {
-        return ResponseUtils.handleResponse(utaTradeApi.placeBatchOrders(request).execute().body());
+    public UtaBatchPlaceOrderResp placeBatchOrders(List<UtaPlaceOrderReq> request) throws IOException {
+        UtaBatchPlaceOrderResp resp = utaTradeApi.placeBatchOrders(request).execute().body();
+        ResponseUtils.handleResponse(resp);
+        return resp;
     }
-    public ResponseResult placeBatchOrdersByMap(List<Map<String, String>> request) throws IOException {
-        return ResponseUtils.handleResponse(utaTradeApi.placeBatchOrdersMap(request).execute().body());
+    public UtaBatchPlaceOrderResp placeBatchOrdersByMap(List<Map<String, String>> request) throws IOException {
+        UtaBatchPlaceOrderResp resp = utaTradeApi.placeBatchOrdersMap(request).execute().body();
+        ResponseUtils.handleResponse(resp);
+        return resp;
     }
     public ResponseResult cancelOrder(UtaCancelOrderReq request) throws IOException {
         return ResponseUtils.handleResponse(utaTradeApi.cancelOrder(request).execute().body());

@@ -7,7 +7,9 @@ import com.bitget.openapi.dto.request.uta.UtaCancelOrderReq;
 import com.bitget.openapi.dto.request.uta.UtaClosePositionsReq;
 import com.bitget.openapi.dto.request.uta.UtaPlaceOrderReq;
 import com.bitget.openapi.dto.response.ResponseResult;
+import com.bitget.openapi.dto.response.uta.UtaBatchPlaceOrderResp;
 import com.bitget.openapi.dto.response.uta.UtaPositionInfoResp;
+import com.bitget.openapi.dto.response.uta.UtaPlaceOrderResp;
 import com.bitget.openapi.dto.response.uta.UtaTicker;
 import com.bitget.openapi.dto.response.uta.UtaTickersResp;
 import com.bitget.openapi.service.v3.UtaMarketService;
@@ -53,16 +55,16 @@ public class UtaTradeTest extends BaseTest {
 
             UtaPlaceOrderReq placeOrderReq = UtaPlaceOrderReq.builder().category("USDT-FUTURES").symbol("ETHUSDT").clientOid(UUID.randomUUID().toString())
                     .posSide("long").side("buy").qty("1.0").orderType("limit").price("100.0").stopLoss("90.0").build();
-            ResponseResult<Map<String, String>> response = tradeService.placeOrder(placeOrderReq);
+            UtaPlaceOrderResp response = tradeService.placeOrder(placeOrderReq);
             assetResponse(response);
             System.out.println(JSON.toJSONString(response));
 
 //            UtaCancelAllOrdersReq req = UtaCancelAllOrdersReq.builder().category("USDT-FUTURES").symbol("ETHUSDT").build();
 //            result = bitgetRestClient.bitget().v3().trade().cancelAllOrders(req);
-            UtaCancelOrderReq cancelOrderReq = UtaCancelOrderReq.builder().clientOid(response.getData().get("clientOid")).build();
-            response = bitgetRestClient.bitget().v3().trade().cancelOrder(cancelOrderReq);
-            assetResponse(response);
-            System.out.println(JSON.toJSONString(response));
+            UtaCancelOrderReq cancelOrderReq = UtaCancelOrderReq.builder().clientOid(response.getData().getClientOid()).build();
+            ResponseResult<?> cancelResp = bitgetRestClient.bitget().v3().trade().cancelOrder(cancelOrderReq);
+            assetResponse(cancelResp);
+            System.out.println(JSON.toJSONString(cancelResp));
         } catch (Exception e) {
             System.out.println(e);
             throw e;
@@ -91,7 +93,7 @@ public class UtaTradeTest extends BaseTest {
             String tpParam = getPriceAdjustedByFactor(lastPrice, 1.5);
             UtaPlaceOrderReq placeOrderReq = UtaPlaceOrderReq.builder().category("USDT-FUTURES").symbol("ETHUSDT").clientOid(UUID.randomUUID().toString())
                     .posSide("long").side("buy").qty("0.05").orderType("market").stopLoss(slParam).takeProfit(tpParam).build();
-            ResponseResult<Map<String, String>> response = tradeService.placeOrder(placeOrderReq);
+            UtaPlaceOrderResp response = tradeService.placeOrder(placeOrderReq);
             assetResponse(response);
             System.out.println(JSON.toJSONString(response));
 
@@ -106,12 +108,12 @@ public class UtaTradeTest extends BaseTest {
 //                        .posSide("long").side("sell").qty("0.01").orderType("limit").price(tpParam).build());
 //                System.out.println(JSON.toJSONString(response));
             }
-            ResponseResult tpResponse = tradeService.placeBatchOrders(list);
+            UtaBatchPlaceOrderResp tpResponse = tradeService.placeBatchOrders(list);
             System.out.println(JSON.toJSONString(tpResponse));
 
-            response = tradeService.closeAllPositions(UtaClosePositionsReq.builder().category("USDT-FUTURES").symbol("ETHUSDT").posSide("long").build());
-            assetResponse(response);
-            System.out.println(JSON.toJSONString(response));
+            ResponseResult closeResp = tradeService.closeAllPositions(UtaClosePositionsReq.builder().category("USDT-FUTURES").symbol("ETHUSDT").posSide("long").build());
+            assetResponse(closeResp);
+            System.out.println(JSON.toJSONString(closeResp));
         } catch (Exception e) {
             System.out.println(e);
             throw e;
