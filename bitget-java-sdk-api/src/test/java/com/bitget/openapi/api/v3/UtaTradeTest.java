@@ -6,13 +6,10 @@ import com.bitget.openapi.BitgetApiFacade;
 import com.bitget.openapi.common.utils.BitgetConsts;
 import com.bitget.openapi.dto.request.uta.UtaCancelOrderReq;
 import com.bitget.openapi.dto.request.uta.UtaClosePositionsReq;
+import com.bitget.openapi.dto.request.uta.UtaOrderHistoryReq;
 import com.bitget.openapi.dto.request.uta.UtaPlaceOrderReq;
 import com.bitget.openapi.dto.response.ResponseResult;
-import com.bitget.openapi.dto.response.uta.UtaBatchPlaceOrderResp;
-import com.bitget.openapi.dto.response.uta.UtaPositionInfoResp;
-import com.bitget.openapi.dto.response.uta.UtaPlaceOrderResp;
-import com.bitget.openapi.dto.response.uta.UtaTicker;
-import com.bitget.openapi.dto.response.uta.UtaTickersResp;
+import com.bitget.openapi.dto.response.uta.*;
 import com.bitget.openapi.service.v3.UtaMarketService;
 import com.bitget.openapi.service.v3.UtaTradeService;
 import org.junit.Assert;
@@ -100,11 +97,14 @@ public class UtaTradeTest extends BaseTest {
     @Test
     public void testGetOrderHistory() throws IOException {
         long startTime = (long) (Instant.now().toEpochMilli() - (6.9 * 24 * 60 * 60 * 1000));
-        ResponseResult resp = tradeService.getOrderHistory(Map.of("category", BitgetConsts.USDT_FUTURES,
-                "symbol", ETHUSDT,
-                "startTime", String.valueOf(startTime),
-                "endTime", String.valueOf(Instant.now().toEpochMilli())));
+        UtaOrderHistoryResp resp = tradeService.getOrderHistory(UtaOrderHistoryReq.builder()
+                .category(BitgetConsts.USDT_FUTURES)
+                .symbol(ETHUSDT)
+                .startTime(String.valueOf(startTime))
+                .endTime(String.valueOf(Instant.now().toEpochMilli()))
+                .build());
         assetResponse(resp);
+        resp.getData().getList().forEach(System.out::println);
     }
 
     @Test

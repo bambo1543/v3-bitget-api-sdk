@@ -3,6 +3,8 @@ package com.bitget.openapi.api.v3;
 import com.bitget.openapi.dto.request.uta.*;
 import com.bitget.openapi.dto.response.ResponseResult;
 import com.bitget.openapi.dto.response.uta.UtaBatchPlaceOrderResp;
+import com.bitget.openapi.dto.response.uta.UtaOpenOrdersResp;
+import com.bitget.openapi.dto.response.uta.UtaOrderHistoryResp;
 import com.bitget.openapi.dto.response.uta.UtaPositionInfoResp;
 import com.bitget.openapi.dto.response.uta.UtaPlaceOrderResp;
 import retrofit2.Call;
@@ -74,10 +76,10 @@ public interface UtaTradeApi {
     Call<ResponseResult> getOrderDetails(@QueryMap Map<String, String> query);
 
     @GET("/api/v3/trade/unfilled-orders")
-    Call<ResponseResult> getOpenOrders(@QueryMap Map<String, String> query);
+    Call<UtaOpenOrdersResp> getOpenOrders(@QueryMap Map<String, String> query);
 
     @GET("/api/v3/trade/history-orders")
-    Call<ResponseResult> getOrderHistory(@QueryMap Map<String, String> query);
+    Call<UtaOrderHistoryResp> getOrderHistory(@QueryMap Map<String, String> query);
 
     @GET("/api/v3/trade/fills")
     Call<ResponseResult> getOrderFills(@QueryMap Map<String, String> query);

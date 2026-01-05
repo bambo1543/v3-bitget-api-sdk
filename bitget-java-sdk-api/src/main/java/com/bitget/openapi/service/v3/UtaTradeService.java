@@ -6,12 +6,16 @@ import com.bitget.openapi.common.utils.ResponseUtils;
 import com.bitget.openapi.dto.request.uta.*;
 import com.bitget.openapi.dto.response.ResponseResult;
 import com.bitget.openapi.dto.response.uta.UtaBatchPlaceOrderResp;
+import com.bitget.openapi.dto.response.uta.UtaOpenOrdersResp;
+import com.bitget.openapi.dto.response.uta.UtaOrderHistoryResp;
 import com.bitget.openapi.dto.response.uta.UtaPositionInfoResp;
 import com.bitget.openapi.dto.response.uta.UtaPlaceOrderResp;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class UtaTradeService {
 
@@ -92,12 +96,18 @@ public class UtaTradeService {
         return ResponseUtils.handleResponse(utaTradeApi.getOrderDetails(query).execute().body());
     }
 
-    public ResponseResult getOpenOrders(Map<String, String> query) throws IOException {
-        return ResponseUtils.handleResponse(utaTradeApi.getOpenOrders(query).execute().body());
+    public UtaOpenOrdersResp getOpenOrders(UtaOpenOrdersReq query) throws IOException {
+        Map<String, String> params = buildOpenOrdersParams(query);
+        UtaOpenOrdersResp resp = utaTradeApi.getOpenOrders(params).execute().body();
+        ResponseUtils.handleResponse(resp);
+        return resp;
     }
 
-    public ResponseResult getOrderHistory(Map<String, String> query) throws IOException {
-        return ResponseUtils.handleResponse(utaTradeApi.getOrderHistory(query).execute().body());
+    public UtaOrderHistoryResp getOrderHistory(UtaOrderHistoryReq query) throws IOException {
+        Map<String, String> params = buildOrderHistoryParams(query);
+        UtaOrderHistoryResp resp = utaTradeApi.getOrderHistory(params).execute().body();
+        ResponseUtils.handleResponse(resp);
+        return resp;
     }
 
     public ResponseResult getOrderFills(Map<String, String> query) throws IOException {
@@ -118,5 +128,55 @@ public class UtaTradeService {
 
     public ResponseResult getPositionAdlRank(Map<String, String> query) throws IOException {
         return ResponseUtils.handleResponse(utaTradeApi.getPositionAdlRank(query).execute().body());
+    }
+
+    private Map<String, String> buildOpenOrdersParams(UtaOpenOrdersReq request) {
+        Objects.requireNonNull(request, "request is required");
+
+        Map<String, String> params = new HashMap<>();
+        if (request.getCategory() != null) {
+            params.put("category", request.getCategory());
+        }
+        if (request.getSymbol() != null) {
+            params.put("symbol", request.getSymbol());
+        }
+        if (request.getStartTime() != null) {
+            params.put("startTime", request.getStartTime());
+        }
+        if (request.getEndTime() != null) {
+            params.put("endTime", request.getEndTime());
+        }
+        if (request.getLimit() != null) {
+            params.put("limit", request.getLimit());
+        }
+        if (request.getCursor() != null) {
+            params.put("cursor", request.getCursor());
+        }
+        return params;
+    }
+
+    private Map<String, String> buildOrderHistoryParams(UtaOrderHistoryReq request) {
+        Objects.requireNonNull(request, "request is required");
+
+        Map<String, String> params = new HashMap<>();
+        if (request.getCategory() != null) {
+            params.put("category", request.getCategory());
+        }
+        if (request.getSymbol() != null) {
+            params.put("symbol", request.getSymbol());
+        }
+        if (request.getStartTime() != null) {
+            params.put("startTime", request.getStartTime());
+        }
+        if (request.getEndTime() != null) {
+            params.put("endTime", request.getEndTime());
+        }
+        if (request.getLimit() != null) {
+            params.put("limit", request.getLimit());
+        }
+        if (request.getCursor() != null) {
+            params.put("cursor", request.getCursor());
+        }
+        return params;
     }
 }
