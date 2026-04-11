@@ -4,12 +4,10 @@ import com.alibaba.fastjson2.JSON;
 import com.bitget.openapi.BaseTest;
 import com.bitget.openapi.BitgetApiFacade;
 import com.bitget.openapi.common.utils.BitgetConsts;
-import com.bitget.openapi.dto.request.uta.UtaCancelOrderReq;
-import com.bitget.openapi.dto.request.uta.UtaClosePositionsReq;
-import com.bitget.openapi.dto.request.uta.UtaOrderHistoryReq;
-import com.bitget.openapi.dto.request.uta.UtaPlaceOrderReq;
+import com.bitget.openapi.dto.request.uta.*;
 import com.bitget.openapi.dto.response.ResponseResult;
 import com.bitget.openapi.dto.response.uta.*;
+import com.bitget.openapi.service.v3.UtaAccountService;
 import com.bitget.openapi.service.v3.UtaMarketService;
 import com.bitget.openapi.service.v3.UtaTradeService;
 import org.junit.Assert;
@@ -30,6 +28,7 @@ public class UtaTradeTest extends BaseTest {
     public static final String ETHUSDT = "ETHUSDT";
     private UtaTradeService tradeService;
     private UtaMarketService marketService;
+    private UtaAccountService account;
 
     @Override
     public void setup() {
@@ -37,6 +36,7 @@ public class UtaTradeTest extends BaseTest {
         BitgetApiFacade.BgEndpointV3 utaEndpoint = bitgetRestClient.bitget().v3();
         tradeService = utaEndpoint.trade();
         marketService = utaEndpoint.market();
+        account = utaEndpoint.account();
     }
 
     @Test
@@ -61,10 +61,11 @@ public class UtaTradeTest extends BaseTest {
 
 //            UtaCancelAllOrdersReq req = UtaCancelAllOrdersReq.builder().category("USDT-FUTURES").symbol("ETHUSDT").build();
 //            result = bitgetRestClient.bitget().v3().trade().cancelAllOrders(req);
-            UtaCancelOrderReq cancelOrderReq = UtaCancelOrderReq.builder().clientOid(response.getData().getClientOid()).build();
-            ResponseResult<?> cancelResp = bitgetRestClient.bitget().v3().trade().cancelOrder(cancelOrderReq);
-            assetResponse(cancelResp);
-            System.out.println(JSON.toJSONString(cancelResp));
+
+//            UtaCancelOrderReq cancelOrderReq = UtaCancelOrderReq.builder().clientOid(response.getData().getClientOid()).build();
+//            ResponseResult<?> cancelResp = bitgetRestClient.bitget().v3().trade().cancelOrder(cancelOrderReq);
+//            assetResponse(cancelResp);
+//            System.out.println(JSON.toJSONString(cancelResp));
         } catch (Exception e) {
             System.out.println(e);
             throw e;
@@ -96,6 +97,8 @@ public class UtaTradeTest extends BaseTest {
 
     @Test
     public void testGetOrderHistory() throws IOException {
+        tradeService.getOpenOrders(UtaOpenOrdersReq.builder().category(BitgetConsts.USDT_FUTURES).symbol(ETHUSDT).build());
+
         long startTime = (long) (Instant.now().toEpochMilli() - (6.9 * 24 * 60 * 60 * 1000));
         UtaOrderHistoryResp resp = tradeService.getOrderHistory(UtaOrderHistoryReq.builder()
                 .category(BitgetConsts.USDT_FUTURES)
@@ -108,7 +111,40 @@ public class UtaTradeTest extends BaseTest {
     }
 
     @Test
-//    @Ignore
+    @Ignore
+    public void createStrategyPositionSetTpAndCancelPosition() throws IOException {
+//        account.setHoldMode(Map.of("holdMode", "hedge_mode"));
+//        ResponseResult responseResult = account.setLeverage(Map.of("category", BitgetConsts.USDT_FUTURES, "symbol", ETHUSDT, "posSide", "long", "leverage", "5"));
+        ResponseResult leverageResponse = account.setLeverage(Map.of("category", BitgetConsts.USDT_FUTURES, "symbol", ETHUSDT, "leverage", "1"));
+
+        UtaPlaceOrderReq placeOrderReq = UtaPlaceOrderReq.builder().category(BitgetConsts.USDT_FUTURES).symbol(ETHUSDT).clientOid(UUID.randomUUID().toString())
+                .posSide("long").side("buy").qty("0.05").orderType("market")
+                .build();
+        UtaPlaceOrderResp response = tradeService.placeOrder(placeOrderReq);
+        assetResponse(response);
+        System.out.println(JSON.toJSONString(response));
+
+        UtaTicker ticker = marketService.tickers(Map.of("category", BitgetConsts.USDT_FUTURES, "symbol", ETHUSDT)).getData().getFirst();
+        double lastPrice = Double.parseDouble(ticker.getLastPrice());
+        String slParam = getPriceAdjustedByFactor(lastPrice, 0.9);
+//        String tpParam = getPriceAdjustedByFactor(lastPrice, 1.5);
+
+        UtaStrategyOrderResp slResp = tradeService.placeStrategyOrder(UtaPlaceStrategyOrderReq.builder()
+                .category(BitgetConsts.USDT_FUTURES).symbol(ETHUSDT).clientOid(UUID.randomUUID().toString())
+                .posSide("long").stopLoss(slParam).build());
+        String slOid = slResp.getData().getClientOid();
+        for(double i = 1; i <= 5; i++) {
+            String tpParam = getPriceAdjustedByFactor(lastPrice, 1 + i / 10.0);
+            UtaStrategyOrderResp tpResp = tradeService.placeStrategyOrder(UtaPlaceStrategyOrderReq.builder()
+                    .category(BitgetConsts.USDT_FUTURES).symbol(ETHUSDT).clientOid(UUID.randomUUID().toString())
+                    .posSide("long").tpslMode("partial").qty("0.01").takeProfit(tpParam).build());
+        }
+
+        tradeService.modifyStrategyOrder(UtaModifyStrategyOrderReq.builder().clientOid(slOid).stopLoss(slParam).build());
+    }
+
+    @Test
+    @Ignore
     public void createPositionSetTpAndCancelPosition() throws IOException {
         try {
             UtaTicker ticker = marketService.tickers(Map.of("category", BitgetConsts.USDT_FUTURES, "symbol", ETHUSDT)).getData().getFirst();
@@ -116,12 +152,17 @@ public class UtaTradeTest extends BaseTest {
             String slParam = getPriceAdjustedByFactor(lastPrice, 0.9);
             String tpParam = getPriceAdjustedByFactor(lastPrice, 1.5);
             UtaPlaceOrderReq placeOrderReq = UtaPlaceOrderReq.builder().category(BitgetConsts.USDT_FUTURES).symbol(ETHUSDT).clientOid(UUID.randomUUID().toString())
-                    .posSide("long").side("buy").qty("0.05").orderType("market").stopLoss(slParam).takeProfit(tpParam).build();
+                    .posSide("long").side("buy").qty("0.05").orderType("market")
+//                    .stopLoss(slParam).takeProfit(tpParam)
+                    .build();
             UtaPlaceOrderResp response = tradeService.placeOrder(placeOrderReq);
             assetResponse(response);
             System.out.println(JSON.toJSONString(response));
 
             List<UtaPlaceOrderReq> list = new ArrayList<>();
+            list.add(UtaPlaceOrderReq.builder().category(BitgetConsts.USDT_FUTURES)
+                    .symbol(ETHUSDT).clientOid(UUID.randomUUID().toString())
+                    .posSide("long").side("sell").qty("0.05").orderType("limit").price(slParam).build());
             for(double i = 1; i <= 5; i++) {
                 tpParam = getPriceAdjustedByFactor(lastPrice, 1 + i / 10.0);
                 list.add(UtaPlaceOrderReq.builder().category(BitgetConsts.USDT_FUTURES)
@@ -135,9 +176,9 @@ public class UtaTradeTest extends BaseTest {
             UtaBatchPlaceOrderResp tpResponse = tradeService.placeBatchOrders(list);
             System.out.println(JSON.toJSONString(tpResponse));
 
-            ResponseResult closeResp = tradeService.closeAllPositions(UtaClosePositionsReq.builder().category(BitgetConsts.USDT_FUTURES).symbol(ETHUSDT).posSide("long").build());
-            assetResponse(closeResp);
-            System.out.println(JSON.toJSONString(closeResp));
+//            ResponseResult closeResp = tradeService.closeAllPositions(UtaClosePositionsReq.builder().category(BitgetConsts.USDT_FUTURES).symbol(ETHUSDT).posSide("long").build());
+//            assetResponse(closeResp);
+//            System.out.println(JSON.toJSONString(closeResp));
         } catch (Exception e) {
             System.out.println(e);
             throw e;

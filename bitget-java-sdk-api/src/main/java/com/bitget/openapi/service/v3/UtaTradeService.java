@@ -7,9 +7,11 @@ import com.bitget.openapi.dto.request.uta.*;
 import com.bitget.openapi.dto.response.ResponseResult;
 import com.bitget.openapi.dto.response.uta.UtaBatchPlaceOrderResp;
 import com.bitget.openapi.dto.response.uta.UtaOpenOrdersResp;
+import com.bitget.openapi.dto.response.uta.UtaOrderDetailsResp;
 import com.bitget.openapi.dto.response.uta.UtaOrderHistoryResp;
 import com.bitget.openapi.dto.response.uta.UtaPositionInfoResp;
 import com.bitget.openapi.dto.response.uta.UtaPlaceOrderResp;
+import com.bitget.openapi.dto.response.uta.UtaStrategyOrderResp;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -78,6 +80,22 @@ public class UtaTradeService {
         return ResponseUtils.handleResponse(utaTradeApi.modifyBatchOrdersMap(request).execute().body());
     }
 
+    public UtaStrategyOrderResp placeStrategyOrder(UtaPlaceStrategyOrderReq request) throws IOException {
+        UtaStrategyOrderResp resp = utaTradeApi.placeStrategyOrder(request).execute().body();
+        ResponseUtils.handleResponse(resp);
+        return resp;
+    }
+
+    public UtaStrategyOrderResp modifyStrategyOrder(UtaModifyStrategyOrderReq request) throws IOException {
+        UtaStrategyOrderResp resp = utaTradeApi.modifyStrategyOrder(request).execute().body();
+        ResponseUtils.handleResponse(resp);
+        return resp;
+    }
+
+    public ResponseResult cancelStrategyOrder(UtaCancelStrategyOrderReq request) throws IOException {
+        return ResponseUtils.handleResponse(utaTradeApi.cancelStrategyOrder(request).execute().body());
+    }
+
     public ResponseResult closeAllPositions(UtaClosePositionsReq request) throws IOException {
         return ResponseUtils.handleResponse(utaTradeApi.closeAllPositions(request).execute().body());
     }
@@ -92,8 +110,17 @@ public class UtaTradeService {
         return ResponseUtils.handleResponse(utaTradeApi.countdownCancelAll(request).execute().body());
     }
 
-    public ResponseResult getOrderDetails(Map<String, String> query) throws IOException {
-        return ResponseUtils.handleResponse(utaTradeApi.getOrderDetails(query).execute().body());
+    public UtaOrderDetailsResp getOrderDetails(UtaGetOrderDetailsReq query) throws IOException {
+        Map<String, String> params = buildOrderDetailsParams(query);
+        UtaOrderDetailsResp resp = utaTradeApi.getOrderDetails(params).execute().body();
+        ResponseUtils.handleResponse(resp);
+        return resp;
+    }
+
+    public UtaOrderDetailsResp getOrderDetails(Map<String, String> query) throws IOException {
+        UtaOrderDetailsResp resp = utaTradeApi.getOrderDetails(query).execute().body();
+        ResponseUtils.handleResponse(resp);
+        return resp;
     }
 
     public UtaOpenOrdersResp getOpenOrders(UtaOpenOrdersReq query) throws IOException {
@@ -151,6 +178,22 @@ public class UtaTradeService {
         }
         if (request.getCursor() != null) {
             params.put("cursor", request.getCursor());
+        }
+        return params;
+    }
+
+    private Map<String, String> buildOrderDetailsParams(UtaGetOrderDetailsReq request) {
+        Objects.requireNonNull(request, "request is required");
+
+        Map<String, String> params = new HashMap<>();
+        if (request.getCategory() != null) {
+            params.put("category", request.getCategory());
+        }
+        if (request.getOrderId() != null) {
+            params.put("orderId", request.getOrderId());
+        }
+        if (request.getClientOid() != null) {
+            params.put("clientOid", request.getClientOid());
         }
         return params;
     }
