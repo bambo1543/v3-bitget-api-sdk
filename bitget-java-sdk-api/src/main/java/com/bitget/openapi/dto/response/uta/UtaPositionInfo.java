@@ -1,5 +1,6 @@
 package com.bitget.openapi.dto.response.uta;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UtaPositionInfo {
     /**
      * Product type: USDT-FUTURES / COIN-FUTURES / USDC-FUTURES.
@@ -27,6 +29,7 @@ public class UtaPositionInfo {
      * Margin coin for the position.
      */
     private String marginCoin;
+    private String marginSize;
     /**
      * Position side: long/short.
      */
@@ -47,6 +50,7 @@ public class UtaPositionInfo {
      * Total position size (available + frozen).
      */
     private String total;
+    private String size;
     /**
      * Leverage multiple.
      */
@@ -79,6 +83,7 @@ public class UtaPositionInfo {
      * Estimated liquidation price (<=0 means no liquidation).
      */
     private String liquidationPrice;
+    private String liqPrice;
     /**
      * Maintenance margin rate.
      */
@@ -99,6 +104,8 @@ public class UtaPositionInfo {
      * Total funding fees accrued during the position.
      */
     private String totalFunding;
+    private String totalFundingFee;
+
     /**
      * Fees deducted on position opening.
      */

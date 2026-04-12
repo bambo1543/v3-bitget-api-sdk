@@ -16,19 +16,17 @@ public class BaseTest {
     /**
      * 用户 apiKey 替换成自己的
      */
-//    private final String apiKey = "bg_5f05d28d7292dbf76f50572f7e4facaa";
-    private final String apiKey = "bg_bccf0e62fd17daff2e85b763be7e1d7a";
+    public static final String apiKey = "bg_5f05d28d7292dbf76f50572f7e4facaa";
 
     /**
      * 用户 secretKey 替换成自己的
      */
-//    private final String secretKey = "fa1adb059174401b999915bb1f61b7ae2ec380a960cad44eef144ce682e7d850";
-    private final String secretKey = "2cac5ac8ebaac14c929937113c6f6c19b5202874c2b50fc2291be1b7c60f1c41";
+    public static final String secretKey = "fa1adb059174401b999915bb1f61b7ae2ec380a960cad44eef144ce682e7d850";
 
     /**
      * 口令 替换成自己的
      */
-    private final String passphrase = "Bambo1543";
+    public static final String passphrase = "Bambo1543";
 
     /**
      * bitget open api 根路径
