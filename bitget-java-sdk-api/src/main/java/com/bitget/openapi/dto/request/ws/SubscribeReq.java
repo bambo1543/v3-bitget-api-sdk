@@ -13,7 +13,5 @@ import java.util.Objects;
 @AllArgsConstructor
 public class SubscribeReq {
     private String instType;
-    private String channel;
-    private String instId;
-    private String coin;
+    private String topic;
 }

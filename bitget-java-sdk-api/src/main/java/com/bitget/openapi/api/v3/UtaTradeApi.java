@@ -39,10 +39,10 @@ public interface UtaTradeApi {
     Call<ResponseResult> cancelOrder(@Body Map<String, String> request);
 
     @POST("/api/v3/trade/cancel-batch")
-    Call<ResponseResult> cancelBatchOrders(@Body UtaCancelBatchOrdersReq request);
+    Call<ResponseResult> cancelBatchOrders(@Body List<UtaCancelBatchOrdersReq> request);
 
     @POST("/api/v3/trade/cancel-batch")
-    Call<ResponseResult> cancelBatchOrders(@Body Map<String, String> request);
+    Call<ResponseResult> cancelBatchOrdersMap(@Body List<Map<String, String>> request);
 
     @POST("/api/v3/trade/cancel-symbol-order")
     Call<ResponseResult> cancelAllOrders(@Body UtaCancelAllOrdersReq request);

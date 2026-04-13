@@ -101,14 +101,6 @@ public class BitgetWsHandle implements BitgetWsClient {
 
     @Override
     public void subscribe(List<SubscribeReq> channels) {
-        if (CollectionUtils.isNotEmpty(channels)) {
-            for (SubscribeReq subscribeReq : channels) {
-                if (subscribeReq != null && StringUtils.isBlank(subscribeReq.getCoin())) {
-                    subscribeReq.setCoin(subscribeReq.getInstId());
-                }
-            }
-        }
-
         allSuribe.addAll(channels);
         sendMessage(new WsBaseReq<>(WS_OP_SUBSCRIBE, channels));
     }
@@ -300,7 +292,7 @@ public class BitgetWsHandle implements BitgetWsClient {
                 String action = jsonObject.get("action").toString();
                 SubscribeReq subscribeReq = JSONObject.parseObject(arg, SubscribeReq.class);
 
-                if (!StringUtils.equalsIgnoreCase(subscribeReq.getChannel(), "books")) {
+                if (!StringUtils.equalsIgnoreCase(subscribeReq.getTopic(), "books")) {
                     return true;
                 }
                 JSONArray data = (JSONArray) jsonObject.get("data");

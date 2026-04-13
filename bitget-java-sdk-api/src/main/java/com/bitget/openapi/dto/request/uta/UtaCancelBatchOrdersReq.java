@@ -5,19 +5,31 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UtaCancelBatchOrdersReq {
 
-    private String symbol;
+    /**
+     * Order ID. Either clientOid or orderId must be provided.
+     * If both are present, orderId takes priority.
+     */
+    private String orderId;
 
+    /**
+     * Client order ID. Either clientOid or orderId must be provided.
+     * If both are present, orderId takes priority.
+     */
+    private String clientOid;
+
+    /**
+     * Product type. All orders in one request must have the same category.
+     */
     private String category;
 
-    private List<String> orderIds;
-
-    private List<String> clientOids;
+    /**
+     * Symbol name, e.g. BTCUSDT.
+     */
+    private String symbol;
 }

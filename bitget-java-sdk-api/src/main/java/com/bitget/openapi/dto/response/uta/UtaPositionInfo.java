@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 /**
  * Position info entry for getPositionInfo response.
  * Fields mirror doc/www.bitget.com/api-doc/uta/trade/Get-Position.html response parameters.
@@ -122,4 +123,16 @@ public class UtaPositionInfo {
      * Updated timestamp (ms).
      */
     private String updatedTime;
+
+    public String getLiquidationPrice() {
+        return liquidationPrice == null ? liqPrice : liquidationPrice;
+    }
+
+    public String getTotalFundingFee() {
+        return totalFundingFee == null ? totalFunding : totalFundingFee;
+    }
+
+    public String getSize() {
+        return size == null ? total : size;
+    }
 }

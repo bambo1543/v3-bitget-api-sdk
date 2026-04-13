@@ -53,11 +53,11 @@ public class UtaTradeService {
     public ResponseResult cancelOrder(Map<String, String> request) throws IOException {
         return ResponseUtils.handleResponse(utaTradeApi.cancelOrder(request).execute().body());
     }
-    public ResponseResult cancelBatchOrders(UtaCancelBatchOrdersReq request) throws IOException {
+    public ResponseResult cancelBatchOrders(List<UtaCancelBatchOrdersReq> request) throws IOException {
         return ResponseUtils.handleResponse(utaTradeApi.cancelBatchOrders(request).execute().body());
     }
-    public ResponseResult cancelBatchOrders(Map<String, String> request) throws IOException {
-        return ResponseUtils.handleResponse(utaTradeApi.cancelBatchOrders(request).execute().body());
+    public ResponseResult cancelBatchOrdersByMap(List<Map<String, String>> request) throws IOException {
+        return ResponseUtils.handleResponse(utaTradeApi.cancelBatchOrdersMap(request).execute().body());
     }
 
     public ResponseResult cancelAllOrders(UtaCancelAllOrdersReq request) throws IOException {

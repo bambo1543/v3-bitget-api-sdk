@@ -49,6 +49,30 @@ public class UtaTradeTest extends BaseTest {
     }
 
     @Test
+    public void cancelBatchOrders() throws IOException {
+        UtaPlaceOrderResp response1 = tradeService.placeOrder(UtaPlaceOrderReq.builder().category(BitgetConsts.USDT_FUTURES).symbol("ETHUSDT").clientOid(UUID.randomUUID().toString())
+                .posSide("long").side("buy").qty("1.0").orderType("limit").price("100.0").stopLoss("90.0").build());
+
+        UtaPlaceOrderResp response2 = tradeService.placeOrder(UtaPlaceOrderReq.builder().category(BitgetConsts.USDT_FUTURES).symbol("ETHUSDT").clientOid(UUID.randomUUID().toString())
+                .posSide("long").side("buy").qty("1.0").orderType("limit").price("120.0").stopLoss("90.0").build());
+
+        List<UtaCancelBatchOrdersReq> req = List.of(
+                UtaCancelBatchOrdersReq.builder()
+                        .category(BitgetConsts.USDT_FUTURES)
+                        .symbol("ETHUSDT")
+                        .orderId(response1.getData().getOrderId())
+                        .build(),
+                UtaCancelBatchOrdersReq.builder()
+                        .category(BitgetConsts.USDT_FUTURES)
+                        .symbol("ETHUSDT")
+                        .orderId(response2.getData().getOrderId())
+                        .build()
+        );
+        ResponseResult responseResult = tradeService.cancelBatchOrders(req);
+
+    }
+
+    @Test
     @Ignore
     public void placeAndCancelOrderModifySL() throws IOException {
         try {
