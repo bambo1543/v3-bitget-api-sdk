@@ -3,12 +3,12 @@ package com.bitget.openapi.ws;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.bitget.openapi.common.enums.SignTypeEnum;
-import com.bitget.openapi.common.utils.DateUtil;
 import com.bitget.openapi.common.utils.SignatureUtils;
 import com.bitget.openapi.dto.request.ws.SubscribeReq;
 import com.bitget.openapi.dto.request.ws.WsBaseReq;
 import com.bitget.openapi.dto.request.ws.WsLoginReq;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +26,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.zip.CRC32;
 
+@Slf4j
 public class BitgetWsHandle implements BitgetWsClient {
     public static final String WS_OP_LOGIN = "login";
     public static final String WS_OP_SUBSCRIBE = "subscribe";
@@ -48,7 +49,19 @@ public class BitgetWsHandle implements BitgetWsClient {
     }
 
     private static void printLog(String msg, String type) {
-        System.out.println("[" + DateUtil.getUnixTime() + "] [" + type.toUpperCase() + "] " + msg);
+        switch (StringUtils.lowerCase(type)) {
+            case "error":
+                log.error(msg);
+                break;
+            case "warn":
+                log.warn(msg);
+                break;
+            case "debug":
+                log.debug(msg);
+                break;
+            default:
+                log.info(msg);
+        }
     }
 
     private WebSocket initClient() {
@@ -129,7 +142,7 @@ public class BitgetWsHandle implements BitgetWsClient {
                 args = buildArgs();
                 sendMessage(new WsBaseReq<>(WS_OP_LOGIN, args));
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("Login retry failed", e);
             }
         }
         printLog("login in ......end", "info");
@@ -204,7 +217,7 @@ public class BitgetWsHandle implements BitgetWsClient {
 
         @Override
         public void onClosing(WebSocket webSocket, int code, String reason) {
-            System.out.println("Connection is about to disconnect！");
+            log.info("Connection is about to disconnect");
             close();
             if (!reconnectStatus) {
                 reConnect();
@@ -214,7 +227,7 @@ public class BitgetWsHandle implements BitgetWsClient {
 
         @Override
         public void onClosed(final WebSocket webSocket, final int code, final String reason) {
-            System.out.println("Connection dropped！" + reason);
+            log.info("Connection dropped: {}", reason);
             close();
             if (!reconnectStatus) {
                 reConnect();
@@ -223,7 +236,7 @@ public class BitgetWsHandle implements BitgetWsClient {
 
         @Override
         public void onFailure(final WebSocket webSocket, final Throwable t, final Response response) {
-            t.printStackTrace();
+            log.error("WebSocket connection failed", t);
             close();
             if (!reconnectStatus) {
 
@@ -316,7 +329,7 @@ public class BitgetWsHandle implements BitgetWsClient {
                 }
 
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("Failed to validate WebSocket checksum", e);
             }
 
 
