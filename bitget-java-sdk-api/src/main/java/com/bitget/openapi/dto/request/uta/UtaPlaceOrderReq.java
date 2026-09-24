@@ -107,4 +107,9 @@ public class UtaPlaceOrderReq {
      * Stop-loss strategy order execution price (only valid when slOrderType=limit).
      */
     private String slLimitPrice;
+
+    /**
+     * Futures margin mode. crossed/isolated. Defaults to crossed when omitted.
+     */
+    private String marginMode;
 }
