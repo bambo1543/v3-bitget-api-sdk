@@ -30,4 +30,8 @@ public class UtaPlaceStrategyOrderReq {
     private String slOrderType;
     private String tpLimitPrice;
     private String slLimitPrice;
+    private String triggerBy;
+    private String triggerPrice;
+    private String triggerOrderType;
+    private String triggerOrderPrice;
 }
