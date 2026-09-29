@@ -21,6 +21,7 @@ public class UtaPlaceStrategyOrderReq {
     private String qty;
     private String side;
     private String posSide;
+    private String reduceOnly;
     private String tpTriggerBy;
     private String slTriggerBy;
     private String takeProfit;
