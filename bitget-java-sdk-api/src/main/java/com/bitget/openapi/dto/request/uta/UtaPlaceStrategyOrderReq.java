@@ -19,6 +19,7 @@ public class UtaPlaceStrategyOrderReq {
     private String type;
     private String tpslMode;
     private String qty;
+    private String side;
     private String posSide;
     private String tpTriggerBy;
     private String slTriggerBy;
