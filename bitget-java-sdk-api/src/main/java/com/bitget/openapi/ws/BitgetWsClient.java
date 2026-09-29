@@ -5,7 +5,7 @@ import com.bitget.openapi.dto.request.ws.WsBaseReq;
 
 import java.util.List;
 
-public interface BitgetWsClient {
+public interface BitgetWsClient extends AutoCloseable {
 
     void sendMessage(WsBaseReq<?> req);
 
@@ -18,4 +18,7 @@ public interface BitgetWsClient {
     void subscribe(List<SubscribeReq> list, SubscriptionListener listener);
 
     void login();
+
+    @Override
+    void close();
 }

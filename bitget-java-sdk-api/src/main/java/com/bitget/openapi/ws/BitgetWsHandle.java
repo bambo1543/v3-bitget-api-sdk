@@ -33,9 +33,12 @@ public class BitgetWsHandle implements BitgetWsClient {
     public static final String WS_OP_UNSUBSCRIBE = "unsubscribe";
 
     private WebSocket webSocket;
+    private OkHttpClient okHttpClient;
+    private BitgetWsListener wsListener;
     private volatile boolean loginStatus = false;
     private volatile boolean connectStatus = false;
     private volatile boolean reconnectStatus = false;
+    private volatile boolean closed = false;
 
     private BitgetClientBuilder builder;
     private Map<SubscribeReq, SubscriptionListener> scribeMap = new ConcurrentHashMap<>();
@@ -65,7 +68,7 @@ public class BitgetWsHandle implements BitgetWsClient {
     }
 
     private WebSocket initClient() {
-        OkHttpClient client = new OkHttpClient.Builder()
+        okHttpClient = new OkHttpClient.Builder()
                 .writeTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .connectTimeout(60, TimeUnit.SECONDS)
@@ -75,7 +78,8 @@ public class BitgetWsHandle implements BitgetWsClient {
                 .url(builder.pushUrl)
                 .build();
 
-        webSocket = client.newWebSocket(request, new BitgetWsListener(this));
+        wsListener = new BitgetWsListener(this);
+        webSocket = okHttpClient.newWebSocket(request, wsListener);
 
         if (builder.isLogin) {
             login();
@@ -89,6 +93,28 @@ public class BitgetWsHandle implements BitgetWsClient {
 
     public static BitgetClientBuilder builder() {
         return new BitgetClientBuilder();
+    }
+
+    @Override
+    public void close() {
+        closed = true;
+        reconnectStatus = true;
+        if (wsListener != null) {
+            wsListener.shutdownHeartbeat();
+        }
+        if (webSocket != null) {
+            webSocket.close(1000, "Application shutdown");
+            webSocket.cancel();
+            webSocket = null;
+        }
+        if (okHttpClient != null) {
+            okHttpClient.dispatcher().cancelAll();
+            okHttpClient.connectionPool().evictAll();
+            okHttpClient.dispatcher().executorService().shutdown();
+            okHttpClient = null;
+        }
+        loginStatus = false;
+        connectStatus = false;
     }
 
     @Override
@@ -202,6 +228,10 @@ public class BitgetWsHandle implements BitgetWsClient {
 
         @Override
         public void onOpen(final WebSocket webSocket, final Response response) {
+            if (closed) {
+                webSocket.cancel();
+                return;
+            }
             connectStatus = true;
             reconnectStatus = false;
             //连接成功后，设置定时器，每隔25s，自动向服务器发送心跳，保持与服务器连接
@@ -350,13 +380,26 @@ public class BitgetWsHandle implements BitgetWsClient {
         }
 
         private void close() {
+            shutdownHeartbeat();
             loginStatus = false;
             connectStatus = false;
-            webSocket.close(1000, "Long time no message was sent or received！");
-            webSocket = null;
+            if (webSocket != null) {
+                webSocket.close(1000, "Long time no message was sent or received！");
+                webSocket = null;
+            }
+        }
+
+        private void shutdownHeartbeat() {
+            if (service != null) {
+                service.shutdownNow();
+                service = null;
+            }
         }
 
         private void reConnect() {
+            if (closed) {
+                return;
+            }
             reconnectStatus = true;
             printLog("start reconnection ...", "info");
             initClient();

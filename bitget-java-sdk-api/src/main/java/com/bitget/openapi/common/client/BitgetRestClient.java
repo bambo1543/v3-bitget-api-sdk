@@ -12,7 +12,7 @@ import org.apache.commons.lang3.Validate;
  * @author bitget-sdk-team
  * @date 2019-01-15
  */
-public class BitgetRestClient {
+public class BitgetRestClient implements AutoCloseable {
     private final ApiClient apiClient;
     private final ClientParameter configuration;
 
@@ -39,6 +39,11 @@ public class BitgetRestClient {
      */
     public BitgetApiFacade bitget() {
         return new BitgetApiFacade(apiClient);
+    }
+
+    @Override
+    public void close() {
+        apiClient.close();
     }
 
     /**

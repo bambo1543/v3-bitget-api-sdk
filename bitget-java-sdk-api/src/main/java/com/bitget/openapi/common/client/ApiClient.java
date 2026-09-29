@@ -28,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 public class ApiClient {
 
     private final Retrofit retrofit;
+    private final OkHttpClient okHttpClient;
 
     /**
      * 超时时间
@@ -36,11 +37,24 @@ public class ApiClient {
 
     ApiClient(ClientParameter parameter) {
         this.parameter = parameter;
+        okHttpClient = httpClient();
         retrofit = new Retrofit.Builder()
                 .baseUrl(parameter.getBaseUrl())
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(httpClient())
+                .client(okHttpClient)
                 .build();
+    }
+
+    public void close() {
+        okHttpClient.dispatcher().cancelAll();
+        okHttpClient.connectionPool().evictAll();
+        okHttpClient.dispatcher().executorService().shutdown();
+        if (okHttpClient.cache() != null) {
+            try {
+                okHttpClient.cache().close();
+            } catch (IOException ignored) {
+            }
+        }
     }
 
     public <T> T create(Class<T> clazz) {
